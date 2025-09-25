@@ -266,14 +266,6 @@ const Categories = () => {
                       renderProviderCard(provider, index)
                     )}
                   </div>
-
-                  {getFilteredProviders().length === 0 && (
-                    <div className="text-center py-5">
-                      <i className="fas fa-search fs-1 text-muted mb-3"></i>
-                      <h4 className="text-muted">No providers found</h4>
-                      <p className="text-muted">No providers are available in this category yet.</p>
-                    </div>
-                  )}
                 </div>
               )}
             </>
