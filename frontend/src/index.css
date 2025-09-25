@@ -299,7 +299,7 @@ p {
 }
 
 .card-text {
-  color: #6B7280; /* Muted text color */
+  color: #000000; /* Muted text color */
   line-height: 1.7;
   font-size: 1rem;
 }
