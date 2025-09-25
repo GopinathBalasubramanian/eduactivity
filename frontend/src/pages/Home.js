@@ -63,35 +63,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* How it Works */}
-      <section className="how-it-works py-5 bg-light">
-        <div className="container">
-          <h2 className="text-center mb-5">How It Works</h2>
-          <div className="row">
-            <div className="col-md-4 text-center mb-4">
-              <div className="step-icon mb-3">
-                <span className="badge bg-primary fs-1">1</span>
-              </div>
-              <h4>Search</h4>
-              <p>Find providers by location, category, or keyword</p>
-            </div>
-            <div className="col-md-4 text-center mb-4">
-              <div className="step-icon mb-3">
-                <span className="badge bg-primary fs-1">2</span>
-              </div>
-              <h4>Compare</h4>
-              <p>Read reviews, check ratings, and compare options</p>
-            </div>
-            <div className="col-md-4 text-center mb-4">
-              <div className="step-icon mb-3">
-                <span className="badge bg-primary fs-1">3</span>
-              </div>
-              <h4>Contact</h4>
-              <p>Get in touch via chat, email, or phone</p>
-            </div>
-          </div>
-        </div>
-      </section>
+
 
       {/* Popular Categories */}
       <section className="categories py-5">
@@ -176,15 +148,29 @@ const Home = () => {
           ) : (
             <>
               <div className="row g-4">
-                {providers.slice(0, 6).map(provider => (
+                {providers.slice(0, 6).map((provider, index) => (
                   <div key={provider.id} className="col-lg-4 col-md-6 mb-4">
                     <div className="card h-100 border-0 shadow-sm">
+                      <div className="card-img-container" style={{height: '200px', overflow: 'hidden', borderRadius: '0.375rem 0.375rem 0 0'}}>
+                        <img
+                          src={`/image/provider-${index + 1}.jpg`}
+                          alt={`${provider.name} - ${provider.category}`}
+                          className="card-img-top w-100 h-100"
+                          style={{objectFit: 'cover'}}
+                          onError={(e) => {
+                            e.target.style.display = 'none';
+                            e.target.parentNode.innerHTML = `
+                              <div class="d-flex align-items-center justify-content-center h-100 bg-light">
+                                <div class="text-center">
+                                  <i class="fas fa-graduation-cap fs-1 text-primary mb-2"></i>
+                                  <p class="text-muted small mb-0">${provider.category}</p>
+                                </div>
+                              </div>
+                            `;
+                          }}
+                        />
+                      </div>
                       <div className="card-body text-center p-4">
-                        <div className="provider-avatar mb-3">
-                          <div className="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center" style={{width: '60px', height: '60px'}}>
-                            <i className="fas fa-user-graduate fs-4"></i>
-                          </div>
-                        </div>
                         <h5 className="card-title fw-bold mb-2">{provider.name}</h5>
                         <div className="mb-2">
                           <span className="badge bg-primary me-2">{provider.category}</span>
