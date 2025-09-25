@@ -5,6 +5,7 @@ import store from './store';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Home from './pages/Home';
+import Categories from './pages/Categories';
 import Search from './pages/Search';
 import ProviderDetail from './pages/ProviderDetail';
 import Login from './pages/Login';
@@ -22,6 +23,7 @@ function App() {
           <main>
             <Routes>
               <Route path="/" element={<Home />} />
+              <Route path="/categories" element={<Categories />} />
               <Route path="/search" element={<Search />} />
               <Route path="/provider/:id" element={<ProviderDetail />} />
               <Route path="/login" element={<Login />} />
