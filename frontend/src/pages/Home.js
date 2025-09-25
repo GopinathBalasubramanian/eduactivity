@@ -82,7 +82,7 @@ const Home = () => {
                       <h4 className="card-title fw-bold mb-2">Education</h4>
                     </div>
                     <div className="category-content">
-                      <p className="card-text mb-3 opacity-75">Schools, tuition centers, NEET/JEE coaching</p>
+                      <p className="card-text mb-3 opacity-75"style={{ color: '#ffffff' }}>Schools, tuition centers, NEET/JEE coaching</p>
                       <div className="d-flex align-items-center justify-content-between">
                         <span className="badge bg-white bg-opacity-25 px-3 py-2">
                           <i className="fas fa-arrow-right me-2"></i>Explore
@@ -108,7 +108,7 @@ const Home = () => {
                       <h4 className="card-title fw-bold mb-2">Sports</h4>
                     </div>
                     <div className="category-content">
-                      <p className="card-text mb-3 opacity-75">Badminton, cricket, swimming, yoga</p>
+                      <p className="card-text mb-3 opacity-75" style={{ color: '#ffffff' }}>Badminton, cricket, swimming, yoga</p>
                       <div className="d-flex align-items-center justify-content-between">
                         <span className="badge bg-white bg-opacity-25 px-3 py-2">
                           <i className="fas fa-arrow-right me-2"></i>Explore
@@ -134,7 +134,7 @@ const Home = () => {
                       <h4 className="card-title fw-bold mb-2">Music</h4>
                     </div>
                     <div className="category-content">
-                      <p className="card-text mb-3 opacity-75">Piano, guitar, violin lessons</p>
+                      <p className="card-text mb-3 opacity-75" style={{ color: '#ffffff' }}>Piano, guitar, violin lessons</p>
                       <div className="d-flex align-items-center justify-content-between">
                         <span className="badge bg-white bg-opacity-25 px-3 py-2">
                           <i className="fas fa-arrow-right me-2"></i>Explore
@@ -160,7 +160,7 @@ const Home = () => {
                       <h4 className="card-title fw-bold mb-2">Arts</h4>
                     </div>
                     <div className="category-content">
-                      <p className="card-text mb-3 opacity-75">Drawing, painting, dance classes</p>
+                      <p className="card-text mb-3 opacity-75" style={{ color: '#ffffff' }}>Drawing, painting, dance classes</p>
                       <div className="d-flex align-items-center justify-content-between">
                         <span className="badge bg-white bg-opacity-25 px-3 py-2">
                           <i className="fas fa-arrow-right me-2"></i>Explore
