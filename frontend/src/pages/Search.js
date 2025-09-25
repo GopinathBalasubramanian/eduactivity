@@ -173,12 +173,7 @@ const Search = () => {
               </div>
             </div>
 
-            {/* Error Message */}
-            {error && (
-              <div className="alert alert-danger" role="alert">
-                {typeof error === 'string' ? error : JSON.stringify(error)}
-              </div>
-            )}
+
 
             {/* Loading */}
             {loading && (
