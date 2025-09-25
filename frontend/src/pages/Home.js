@@ -101,7 +101,7 @@ const Home = () => {
             </div>
             <div className="col-lg-3 col-md-6 mb-4">
               <Link to="/search?category=sports" className="text-decoration-none">
-                <div className="category-card position-relative overflow-hidden rounded-3 shadow-sm" style={{minHeight: '280px', background: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)'}}>
+                <div className="category-card position-relative overflow-hidden rounded-3 shadow-sm" style={{minHeight: '280px', background: 'linear-gradient(135deg, #70745dff 0%, #f5576c 100%)'}}>
                   <div className="card-img-overlay d-flex flex-column justify-content-between p-4 text-white">
                     <div className="category-icon text-center mb-3">
                       <i className="fas fa-running fs-1 mb-3"></i>
@@ -127,7 +127,7 @@ const Home = () => {
             </div>
             <div className="col-lg-3 col-md-6 mb-4">
               <Link to="/search?category=music" className="text-decoration-none">
-                <div className="category-card position-relative overflow-hidden rounded-3 shadow-sm" style={{minHeight: '280px', background: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)'}}>
+                <div className="category-card position-relative overflow-hidden rounded-3 shadow-sm" style={{minHeight: '280px', background: 'linear-gradient(135deg, #235b8bff 0%, #72b1b4ff 100%)'}}>
                   <div className="card-img-overlay d-flex flex-column justify-content-between p-4 text-white">
                     <div className="category-icon text-center mb-3">
                       <i className="fas fa-music fs-1 mb-3"></i>
