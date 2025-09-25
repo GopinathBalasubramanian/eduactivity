@@ -18,11 +18,11 @@ const Home = () => {
         <div className="container">
           <div className="row align-items-center min-vh-75">
             <div className="col-lg-6 fade-in-up">
-              <h1 className="mb-4">
+              <h2 className="mb-4">
                 Find the Perfect
                 <span className="d-block text-warning">Educational & Activity</span>
                 Provider
-              </h1>
+              </h2>
               <p className="lead mb-4">
                 Connect with schools, tuition centers, teachers, and sports coaches
                 in your area. Read reviews, compare options, and book with confidence.
@@ -66,68 +66,116 @@ const Home = () => {
 
 
       {/* Popular Categories */}
-      <section className="categories py-5">
+      <section className="categories py-5 bg-light">
         <div className="container">
-          <div className="text-center mb-5 ">
+          <div className="text-center mb-5">
             <h2 className="mb-3 text-primary">Popular Categories</h2>
-            <p className="text-success">Discover providers in your favorite categories</p>
+            <p className="text-muted">Discover providers in your favorite categories</p>
           </div>
           <div className="row g-4">
-            <div className="col-md-3 mb-4">
-              <div className="card h-100 border-0 shadow-sm">
-                <div className="card-body text-center p-4">
-                  <div className="category-icon mb-3">
-                    <i className="fas fa-graduation-cap fs-1 text-primary"></i>
+            <div className="col-lg-3 col-md-6 mb-4">
+              <Link to="/search?category=education" className="text-decoration-none">
+                <div className="category-card position-relative overflow-hidden rounded-3 shadow-sm" style={{minHeight: '280px', background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'}}>
+                  <div className="card-img-overlay d-flex flex-column justify-content-between p-4 text-white">
+                    <div className="category-icon text-center mb-3">
+                      <i className="fas fa-graduation-cap fs-1 mb-3"></i>
+                      <h4 className="card-title fw-bold mb-2">Education</h4>
+                    </div>
+                    <div className="category-content">
+                      <p className="card-text mb-3 opacity-75">Schools, tuition centers, NEET/JEE coaching</p>
+                      <div className="d-flex align-items-center justify-content-between">
+                        <span className="badge bg-white bg-opacity-25 px-3 py-2">
+                          <i className="fas fa-arrow-right me-2"></i>Explore
+                        </span>
+                        <small className="opacity-75">500+ Providers</small>
+                      </div>
+                    </div>
                   </div>
-                  <h5 className="card-title fw-bold">Education</h5>
-                  <p className="card-text text-muted">Schools, tuition centers, NEET/JEE coaching</p>
-                  <Link to="/search?category=education" className="btn btn-primary mt-3">
-                    <i className="fas fa-arrow-right me-2"></i>Explore
-                  </Link>
+                  <div className="position-absolute top-0 end-0 m-3">
+                    <div className="bg-white bg-opacity-25 rounded-circle p-2">
+                      <i className="fas fa-book text-white"></i>
+                    </div>
+                  </div>
                 </div>
-              </div>
+              </Link>
             </div>
-            <div className="col-md-3 mb-4">
-              <div className="card h-100 border-0 shadow-sm">
-                <div className="card-body text-center p-4">
-                  <div className="category-icon mb-3">
-                    <i className="fas fa-running fs-1 text-success"></i>
+            <div className="col-lg-3 col-md-6 mb-4">
+              <Link to="/search?category=sports" className="text-decoration-none">
+                <div className="category-card position-relative overflow-hidden rounded-3 shadow-sm" style={{minHeight: '280px', background: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)'}}>
+                  <div className="card-img-overlay d-flex flex-column justify-content-between p-4 text-white">
+                    <div className="category-icon text-center mb-3">
+                      <i className="fas fa-running fs-1 mb-3"></i>
+                      <h4 className="card-title fw-bold mb-2">Sports</h4>
+                    </div>
+                    <div className="category-content">
+                      <p className="card-text mb-3 opacity-75">Badminton, cricket, swimming, yoga</p>
+                      <div className="d-flex align-items-center justify-content-between">
+                        <span className="badge bg-white bg-opacity-25 px-3 py-2">
+                          <i className="fas fa-arrow-right me-2"></i>Explore
+                        </span>
+                        <small className="opacity-75">300+ Providers</small>
+                      </div>
+                    </div>
                   </div>
-                  <h5 className="card-title fw-bold">Sports</h5>
-                  <p className="card-text text-muted">Badminton, cricket, swimming, yoga</p>
-                  <Link to="/search?category=sports" className="btn btn-success mt-3">
-                    <i className="fas fa-arrow-right me-2"></i>Explore
-                  </Link>
+                  <div className="position-absolute top-0 end-0 m-3">
+                    <div className="bg-white bg-opacity-25 rounded-circle p-2">
+                      <i className="fas fa-futbol text-white"></i>
+                    </div>
+                  </div>
                 </div>
-              </div>
+              </Link>
             </div>
-            <div className="col-md-3 mb-4">
-              <div className="card h-100 border-0 shadow-sm">
-                <div className="card-body text-center p-4">
-                  <div className="category-icon mb-3">
-                    <i className="fas fa-music fs-1 text-warning"></i>
+            <div className="col-lg-3 col-md-6 mb-4">
+              <Link to="/search?category=music" className="text-decoration-none">
+                <div className="category-card position-relative overflow-hidden rounded-3 shadow-sm" style={{minHeight: '280px', background: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)'}}>
+                  <div className="card-img-overlay d-flex flex-column justify-content-between p-4 text-white">
+                    <div className="category-icon text-center mb-3">
+                      <i className="fas fa-music fs-1 mb-3"></i>
+                      <h4 className="card-title fw-bold mb-2">Music</h4>
+                    </div>
+                    <div className="category-content">
+                      <p className="card-text mb-3 opacity-75">Piano, guitar, violin lessons</p>
+                      <div className="d-flex align-items-center justify-content-between">
+                        <span className="badge bg-white bg-opacity-25 px-3 py-2">
+                          <i className="fas fa-arrow-right me-2"></i>Explore
+                        </span>
+                        <small className="opacity-75">200+ Providers</small>
+                      </div>
+                    </div>
                   </div>
-                  <h5 className="card-title fw-bold">Music</h5>
-                  <p className="card-text text-muted">Piano, guitar, violin lessons</p>
-                  <Link to="/search?category=music" className="btn btn-warning mt-5">
-                    <i className="fas fa-arrow-right me-2"></i>Explore
-                  </Link>
+                  <div className="position-absolute top-0 end-0 m-3">
+                    <div className="bg-white bg-opacity-25 rounded-circle p-2">
+                      <i className="fas fa-guitar text-white"></i>
+                    </div>
+                  </div>
                 </div>
-              </div>
+              </Link>
             </div>
-            <div className="col-md-3 mb-4">
-              <div className="card h-100 border-0 shadow-sm">
-                <div className="card-body text-center p-4">
-                  <div className="category-icon mb-3">
-                    <i className="fas fa-palette fs-1 text-danger"></i>
+            <div className="col-lg-3 col-md-6 mb-4">
+              <Link to="/search?category=arts" className="text-decoration-none">
+                <div className="category-card position-relative overflow-hidden rounded-3 shadow-sm" style={{minHeight: '280px', background: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)'}}>
+                  <div className="card-img-overlay d-flex flex-column justify-content-between p-4 text-white">
+                    <div className="category-icon text-center mb-3">
+                      <i className="fas fa-palette fs-1 mb-3"></i>
+                      <h4 className="card-title fw-bold mb-2">Arts</h4>
+                    </div>
+                    <div className="category-content">
+                      <p className="card-text mb-3 opacity-75">Drawing, painting, dance classes</p>
+                      <div className="d-flex align-items-center justify-content-between">
+                        <span className="badge bg-white bg-opacity-25 px-3 py-2">
+                          <i className="fas fa-arrow-right me-2"></i>Explore
+                        </span>
+                        <small className="opacity-75">150+ Providers</small>
+                      </div>
+                    </div>
                   </div>
-                  <h5 className="card-title fw-bold">Arts</h5>
-                  <p className="card-text text-muted">Drawing, painting, dance classes</p>
-                  <Link to="/search?category=arts" className="btn btn-danger mt-3">
-                    <i className="fas fa-arrow-right me-2"></i>Explore
-                  </Link>
+                  <div className="position-absolute top-0 end-0 m-3">
+                    <div className="bg-white bg-opacity-25 rounded-circle p-2">
+                      <i className="fas fa-palette text-white"></i>
+                    </div>
+                  </div>
                 </div>
-              </div>
+              </Link>
             </div>
           </div>
         </div>
