@@ -11,6 +11,11 @@ const Profile = () => {
     first_name: '',
     last_name: '',
     phone: '',
+    fathers_name: '',
+    date_of_birth: '',
+    school_name: '',
+    class_name: '',
+    address: '',
   });
   const [passwordData, setPasswordData] = useState({
     old_password: '',
@@ -25,6 +30,11 @@ const Profile = () => {
         first_name: user.first_name || '',
         last_name: user.last_name || '',
         phone: user.phone || '',
+        fathers_name: user.fathers_name || '',
+        date_of_birth: user.date_of_birth || '',
+        school_name: user.school_name || '',
+        class_name: user.class_name || '',
+        address: user.address || '',
       });
     }
   }, [user]);
@@ -124,44 +134,29 @@ const Profile = () => {
 
               {/* Profile Tab */}
               {activeTab === 'profile' && (
-                <form onSubmit={handleProfileSubmit}>
+                <div>
+                  {/* Display Information */}
                   <div className="row">
                     <div className="col-md-6 mb-3">
-                      <label htmlFor="first_name" className="form-label">First Name</label>
+                      <label className="form-label">Name</label>
                       <input
                         type="text"
                         className="form-control"
-                        id="first_name"
-                        name="first_name"
-                        value={profileData.first_name}
-                        onChange={handleProfileChange}
-                        required
+                        value={`${user?.first_name || ''} ${user?.last_name || ''}`}
+                        disabled
                       />
                     </div>
                     <div className="col-md-6 mb-3">
-                      <label htmlFor="last_name" className="form-label">Last Name</label>
+                      <label className="form-label">Phone Number</label>
                       <input
-                        type="text"
+                        type="tel"
                         className="form-control"
-                        id="last_name"
-                        name="last_name"
-                        value={profileData.last_name}
-                        onChange={handleProfileChange}
-                        required
+                        value={user?.phone || ''}
+                        disabled
                       />
                     </div>
                   </div>
-                  <div className="mb-3">
-                    <label htmlFor="phone" className="form-label">Phone</label>
-                    <input
-                      type="tel"
-                      className="form-control"
-                      id="phone"
-                      name="phone"
-                      value={profileData.phone}
-                      onChange={handleProfileChange}
-                    />
-                  </div>
+
                   <div className="mb-3">
                     <label className="form-label">Email</label>
                     <input
@@ -170,8 +165,8 @@ const Profile = () => {
                       value={user?.email || ''}
                       disabled
                     />
-                    <small className="text-muted">Email cannot be changed</small>
                   </div>
+
                   <div className="mb-3">
                     <label className="form-label">User Type</label>
                     <input
@@ -181,10 +176,110 @@ const Profile = () => {
                       disabled
                     />
                   </div>
+
+                  {/* Student/Parent specific fields */}
+                  {user?.user_type === 'student' && (
+                    <>
+                      <div className="row">
+                        <div className="col-md-6 mb-3">
+                          <label className="form-label">Father's Name</label>
+                          <input
+                            type="text"
+                            className="form-control"
+                            name="fathers_name"
+                            value={profileData.fathers_name}
+                            onChange={handleProfileChange}
+                            placeholder="Enter father's name"
+                          />
+                        </div>
+                        <div className="col-md-6 mb-3">
+                          <label className="form-label">Date of Birth</label>
+                          <input
+                            type="date"
+                            className="form-control"
+                            name="date_of_birth"
+                            value={profileData.date_of_birth}
+                            onChange={handleProfileChange}
+                          />
+                        </div>
+                      </div>
+
+                      <div className="row">
+                        <div className="col-md-6 mb-3">
+                          <label className="form-label">School Name</label>
+                          <input
+                            type="text"
+                            className="form-control"
+                            name="school_name"
+                            value={profileData.school_name}
+                            onChange={handleProfileChange}
+                            placeholder="Enter school name"
+                          />
+                        </div>
+                        <div className="col-md-6 mb-3">
+                          <label className="form-label">Class</label>
+                          <select
+                            className="form-control"
+                            name="class_name"
+                            value={profileData.class_name}
+                            onChange={handleProfileChange}
+                          >
+                            <option value="">Select Class</option>
+                            <option value="Nursery">Nursery</option>
+                            <option value="LKG">LKG</option>
+                            <option value="UKG">UKG</option>
+                            <option value="1st">1st</option>
+                            <option value="2nd">2nd</option>
+                            <option value="3rd">3rd</option>
+                            <option value="4th">4th</option>
+                            <option value="5th">5th</option>
+                            <option value="6th">6th</option>
+                            <option value="7th">7th</option>
+                            <option value="8th">8th</option>
+                            <option value="9th">9th</option>
+                            <option value="10th">10th</option>
+                            <option value="11th">11th</option>
+                            <option value="12th">12th</option>
+                            <option value="B.Sc">B.Sc</option>
+                            <option value="B.Com">B.Com</option>
+                            <option value="B.A">B.A</option>
+                            <option value="M.Sc">M.Sc</option>
+                            <option value="M.Com">M.Com</option>
+                            <option value="M.A">M.A</option>
+                            <option value="Other">Other</option>
+                          </select>
+                        </div>
+                      </div>
+
+                      <div className="mb-3">
+                        <label className="form-label">Address</label>
+                        <textarea
+                          className="form-control"
+                          name="address"
+                          value={profileData.address}
+                          onChange={handleProfileChange}
+                          rows="3"
+                          placeholder="Enter full address"
+                        />
+                      </div>
+                    </>
+                  )}
+
+                  {/* Provider specific fields */}
+                  {user?.user_type === 'provider' && (
+                    <div className="alert alert-info">
+                      <h6><i className="fas fa-info-circle me-2"></i>Provider Information</h6>
+                      <p className="mb-0">As a provider, you can manage your profile through the Dashboard.</p>
+                      <a href="/dashboard" className="btn btn-primary btn-sm mt-2">
+                        Go to Dashboard
+                      </a>
+                    </div>
+                  )}
+
                   <button type="submit" className="btn btn-primary" disabled={loading}>
                     {loading ? 'Updating...' : 'Update Profile'}
                   </button>
-                </form>
+                </div>
               )}
 
               {/* Password Tab */}

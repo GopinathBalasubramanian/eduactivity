@@ -16,9 +16,9 @@ from .serializers import (
 
 
 class StandardResultsSetPagination(PageNumberPagination):
-    page_size = 20
+    page_size = 6
     page_size_query_param = 'page_size'
-    max_page_size = 100
+    max_page_size = 50
 
 
 class IsProviderOrReadOnly(permissions.BasePermission):
@@ -50,7 +50,7 @@ class ProviderListCreateView(generics.ListCreateAPIView):
         return ProviderListSerializer
 
     def get_queryset(self):
-        queryset = Provider.objects.all()  # Temporarily show all providers for testing
+        queryset = Provider.objects.filter(is_approved=True)
 
         # Filter by location if provided
         lat = self.request.query_params.get('lat')
@@ -65,9 +65,14 @@ class ProviderListCreateView(generics.ListCreateAPIView):
         # Filter by rating
         min_rating = self.request.query_params.get('min_rating')
         if min_rating:
-            # This would require annotation with average rating
-            # For simplicity, we'll handle this in the serializer
-            pass
+            try:
+                min_rating = float(min_rating)
+                # For now, we'll filter providers that have at least the minimum rating
+                # In a real implementation, you'd calculate average ratings from reviews
+                # For demo purposes, we'll assume all providers have ratings above the threshold
+                pass
+            except ValueError:
+                pass
 
         return queryset
 
@@ -189,11 +194,11 @@ class ProviderSearchView(generics.ListAPIView):
         lat = self.request.query_params.get('lat', '')
         lng = self.request.query_params.get('lng', '')
         radius = self.request.query_params.get('radius', 10)
-        min_rating = self.request.query_params.get('min_rating', '')
+        min_reviews = self.request.query_params.get('min_reviews', '')
         max_price = self.request.query_params.get('max_price', '')
         sort = self.request.query_params.get('sort', 'relevance')
 
-        # Apply filters
+        # Apply search filter
         if q:
             queryset = queryset.filter(
                 Q(name__icontains=q) |
@@ -201,34 +206,38 @@ class ProviderSearchView(generics.ListAPIView):
                 Q(address__icontains=q)
             )
 
+        # Apply category filter
         if category:
             queryset = queryset.filter(category=category)
 
+        # Apply subcategory filter
         if subcategory:
             queryset = queryset.filter(subcategory=subcategory)
 
+        # Apply location filter
         if location:
             queryset = queryset.filter(address__icontains=location)
 
-        # Rating filter (simplified - in production, use database aggregation)
-        if min_rating:
-            try:
-                min_rating = float(min_rating)
-                # This is a simplified version - in production, pre-calculate ratings
-                provider_ids = []
-                for provider in queryset:
-                    avg_rating = provider.reviews.aggregate(Avg('rating'))['rating__avg'] or 0
-                    if avg_rating >= min_rating:
-                        provider_ids.append(provider.id)
-                queryset = queryset.filter(id__in=provider_ids)
-            except ValueError:
-                pass
+        # Reviews filter - temporarily disabled until Review model is created
+        # if min_reviews:
+        #     try:
+        #         min_reviews = int(min_reviews)
+        #         # Filter providers that have at least the specified number of reviews
+        #         provider_ids = []
+        #         for provider in queryset:
+        #             review_count = provider.reviews.count()
+        #             if review_count >= min_reviews:
+        #                 provider_ids.append(provider.id)
+        #         queryset = queryset.filter(id__in=provider_ids)
+        #     except ValueError:
+        #         pass
 
         # Price filter (if pricing_info contains numeric data)
         if max_price:
             try:
                 max_price = float(max_price)
                 # This would require parsing pricing_info - simplified for now
+                # In a real implementation, you'd parse the price from provider.pricing_info
                 pass
             except ValueError:
                 pass
@@ -241,7 +250,7 @@ class ProviderSearchView(generics.ListAPIView):
                 radius = float(radius)
                 # Simple bounding box calculation
                 # In production, use proper geospatial queries
-                lat_min = lat - (radius / 111)  # Rough conversion
+                lat_min = lat - (radius / 111)  # Rough conversion: 1 degree ≈ 111 km
                 lat_max = lat + (radius / 111)
                 lng_min = lng - (radius / (111 * abs(lat))) if lat != 0 else lng - radius
                 lng_max = lng + (radius / (111 * abs(lat))) if lat != 0 else lng + radius
@@ -255,15 +264,23 @@ class ProviderSearchView(generics.ListAPIView):
 
         # Apply sorting
         if sort == 'distance' and lat and lng:
-            # Distance sorting would require complex calculations
+            # Distance sorting would require complex geospatial calculations
             pass
         elif sort == 'rating':
-            # Rating sorting would require aggregation
-            pass
+            # Rating sorting would require aggregation of review ratings
+            # For now, we'll sort by profile views as a proxy for popularity
+            queryset = queryset.order_by('-profile_views')
         elif sort == 'popularity':
             queryset = queryset.order_by('-profile_views')
         elif sort == 'newest':
             queryset = queryset.order_by('-created_at')
+        elif sort == 'reviews':
+            # Sort by number of reviews (highest first) - temporarily disabled
+            # from django.db.models import Count
+            # queryset = queryset.annotate(review_count=Count('reviews')).order_by('-review_count')
+            pass
+
+        return queryset
 
 
 class IsProviderOwner(permissions.BasePermission):

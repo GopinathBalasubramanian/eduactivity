@@ -48,6 +48,13 @@ class User(AbstractBaseUser, PermissionsMixin):
     updated_at = models.DateTimeField(auto_now=True)
     last_login = models.DateTimeField(blank=True, null=True)
 
+    # Student/Parent specific fields
+    fathers_name = models.CharField(max_length=100, blank=True, null=True)
+    date_of_birth = models.DateField(blank=True, null=True)
+    school_name = models.CharField(max_length=200, blank=True, null=True)
+    class_name = models.CharField(max_length=50, blank=True, null=True)  # e.g., "10th", "12th", "B.Sc"
+    address = models.TextField(blank=True, null=True)
+
     objects = UserManager()
 
     USERNAME_FIELD = 'email'

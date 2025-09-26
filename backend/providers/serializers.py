@@ -142,19 +142,31 @@ class ProviderListSerializer(serializers.ModelSerializer):
     photos = ProviderPhotoSerializer(many=True, read_only=True)
     services = ServiceSerializer(many=True, read_only=True)
     distance = serializers.SerializerMethodField()
+    review_count = serializers.SerializerMethodField()
+    average_rating = serializers.SerializerMethodField()
 
     class Meta:
         model = Provider
         fields = [
             'id', 'name', 'category', 'subcategory', 'address',
             'latitude', 'longitude', 'pricing_info', 'photos',
-            'services', 'distance', 'is_approved'
+            'services', 'distance', 'is_approved', 'review_count', 'average_rating'
         ]
 
     def get_distance(self, obj):
         # This would be calculated based on user's location
         # For now, return None
         return None
+
+    def get_review_count(self, obj):
+        return obj.reviews.count()
+
+    def get_average_rating(self, obj):
+        reviews = obj.reviews.all()
+        if reviews:
+            total_rating = sum(review.rating for review in reviews)
+            return round(total_rating / len(reviews), 1)
+        return 0.0
 
 
 class ProviderAdminListSerializer(serializers.ModelSerializer):

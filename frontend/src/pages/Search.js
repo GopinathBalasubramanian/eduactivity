@@ -13,7 +13,7 @@ const Search = () => {
     category: searchParams.get('category') || '',
     subcategory: searchParams.get('subcategory') || '',
     location: searchParams.get('location') || '',
-    minRating: searchParams.get('minRating') || '',
+    min_rating: searchParams.get('min_rating') || '',
     maxPrice: searchParams.get('maxPrice') || '',
     sort: searchParams.get('sort') || 'relevance',
   });
@@ -22,6 +22,20 @@ const Search = () => {
     // Load initial results
     dispatch(fetchProviders());
   }, [dispatch]);
+
+  useEffect(() => {
+    // Trigger search when filters change
+    const filters = {
+      q: localFilters.q,
+      category: localFilters.category,
+      subcategory: localFilters.subcategory,
+      location: localFilters.location,
+      min_rating: localFilters.min_rating,
+      maxPrice: localFilters.maxPrice,
+      sort: localFilters.sort,
+    };
+    dispatch(fetchProviders(filters));
+  }, [localFilters, dispatch]);
 
   const handleFilterChange = (key, value) => {
     const newFilters = { ...localFilters, [key]: value };
@@ -41,12 +55,14 @@ const Search = () => {
       category: '',
       subcategory: '',
       location: '',
-      minRating: '',
+      min_rating: '',
       maxPrice: '',
       sort: 'relevance',
     };
     setLocalFilters(clearedFilters);
     setSearchParams({});
+    // Trigger search with cleared filters
+    dispatch(fetchProviders(clearedFilters));
   };
 
   return (
@@ -60,13 +76,21 @@ const Search = () => {
             {/* Search Query */}
             <div className="mb-3">
               <label className="form-label">Search</label>
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Search providers..."
-                value={localFilters.q}
-                onChange={(e) => handleFilterChange('q', e.target.value)}
-              />
+              <div className="d-flex">
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Search providers..."
+                  value={localFilters.q}
+                  onChange={(e) => handleFilterChange('q', e.target.value)}
+                />
+                <button
+                  className="btn btn-primary ms-2"
+                  onClick={() => dispatch(fetchProviders(localFilters))}
+                >
+                  <i className="fas fa-search"></i>
+                </button>
+              </div>
             </div>
 
             {/* Category */}
@@ -115,20 +139,29 @@ const Search = () => {
               />
             </div>
 
-            {/* Rating */}
+            {/* Rating Filter */}
             <div className="mb-3">
-              <label className="form-label">Minimum Rating</label>
+              <label className="form-label">
+                <i className="fas fa-star text-warning me-1"></i>Rating
+              </label>
               <select
                 className="form-select"
-                value={localFilters.minRating}
-                onChange={(e) => handleFilterChange('minRating', e.target.value)}
+                value={localFilters.min_rating || ''}
+                onChange={(e) => handleFilterChange('min_rating', e.target.value)}
               >
                 <option value="">Any Rating</option>
-                <option value="4.5">4.5+ Stars</option>
-                <option value="4.0">4.0+ Stars</option>
-                <option value="3.5">3.5+ Stars</option>
-                <option value="3.0">3.0+ Stars</option>
+                <option value="5">⭐⭐⭐⭐⭐ 5 Stars</option>
+                <option value="4">⭐⭐⭐⭐ 4+ Stars</option>
+                <option value="3">⭐⭐⭐ 3+ Stars</option>
+                <option value="2">⭐⭐ 2+ Stars</option>
+                <option value="1">⭐ 1+ Stars</option>
               </select>
+              <div className="form-text">
+                <small className="text-muted">
+                  <i className="fas fa-info-circle me-1"></i>
+                  Filter by minimum star rating
+                </small>
+              </div>
             </div>
 
             {/* Sort */}
@@ -188,11 +221,11 @@ const Search = () => {
             {!loading && providers.length > 0 && (
               <div className="row">
                 {providers.map((provider) => (
-                  <div key={provider.id} className="col-lg-6 col-xl-4 mb-4">
+                  <div key={provider.id} className="col-lg-6 mb-4">
                     <div className="card h-100">
                       {/* Provider Image */}
                       <div className="card-img-top bg-light d-flex align-items-center justify-content-center"
-                           style={{ height: '200px' }}>
+                           style={{ height: '120px' }}>
                         {provider.photos && provider.photos.length > 0 ? (
                           <img
                             src={provider.photos.find(p => p.is_primary)?.photo_url || provider.photos[0].photo_url}
@@ -202,19 +235,20 @@ const Search = () => {
                           />
                         ) : (
                           <div className="text-muted">
-                            <i className="fas fa-image fa-3x"></i>
-                            <p>No Image</p>
+                            <i className="fas fa-image fa-2x"></i>
+                            <p className="small mb-0">No Image</p>
                           </div>
                         )}
                       </div>
 
-                      <div className="card-body">
-                        <h5 className="card-title">{provider.name}</h5>
-                        <p className="card-text text-muted small">
+                      <div className="card-body p-2">
+                        <h6 className="card-title mb-1">{provider.name}</h6>
+                        <p className="card-text text-muted small mb-1">
                           {provider.category} • {provider.subcategory || 'General'}
                         </p>
-                        <p className="card-text">
-                          <i className="fas fa-map-marker-alt text-muted"></i> {provider.address}
+                        <p className="card-text small mb-1">
+                          <i className="fas fa-map-marker-alt text-muted me-1"></i>
+                          <small>{provider.address}</small>
                         </p>
 
                         {/* Rating */}
@@ -254,12 +288,12 @@ const Search = () => {
                         )}
                       </div>
 
-                      <div className="card-footer bg-transparent">
-                        <div className="d-flex justify-content-between">
-                          <button className="btn btn-outline-primary btn-sm">
-                            View Details
+                      <div className="card-footer bg-transparent p-2">
+                        <div className="d-flex justify-content-between gap-1">
+                          <button className="btn btn-outline-primary btn-sm px-2 py-1">
+                            Details
                           </button>
-                          <button className="btn btn-primary btn-sm">
+                          <button className="btn btn-primary btn-sm px-2 py-1">
                             Contact
                           </button>
                         </div>

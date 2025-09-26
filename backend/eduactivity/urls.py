@@ -29,7 +29,7 @@ urlpatterns = [
     path('api/auth/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/auth/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/users/', include('users.urls')),
-    path('api/providers/', views.ProviderListView.as_view(), name='provider-list'),
+    path('api/providers/', include('providers.urls')),
     # path('api/subscriptions/', include('subscriptions.urls')),
     # path('api/reviews/', include('reviews.urls')),
     # path('api/chats/', include('chats.urls')),
@@ -37,7 +37,7 @@ urlpatterns = [
     # path('api/bookmarks/', include('bookmarks.urls')),
     # path('api/search-alerts/', include('search_alerts.urls')),
     # path('api/categories/', include('categories.urls')),
-    path('api/search/', include('providers.urls', namespace='search')),  # Using providers search for now
+    path('api/search/', views.ProviderListView.as_view(), name='search-providers'),
 ]
 
 if settings.DEBUG:

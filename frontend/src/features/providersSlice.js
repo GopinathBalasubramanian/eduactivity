@@ -4,9 +4,27 @@ import axios from 'axios';
 // Async thunks
 export const fetchProviders = createAsyncThunk(
   'providers/fetchProviders',
-  async (params, { rejectWithValue }) => {
+  async (params = {}, { rejectWithValue }) => {
     try {
-      const response = await axios.get('/api/providers/', { params });
+      // Convert frontend parameter names to backend parameter names
+      const backendParams = {
+        q: params.q,
+        category: params.category,
+        subcategory: params.subcategory,
+        location: params.location,
+        min_rating: params.min_rating,
+        max_price: params.maxPrice,
+        sort: params.sort,
+      };
+
+      // Remove empty parameters
+      Object.keys(backendParams).forEach(key => {
+        if (backendParams[key] === '' || backendParams[key] === undefined || backendParams[key] === null) {
+          delete backendParams[key];
+        }
+      });
+
+      const response = await axios.get('/api/search/', { params: backendParams });
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data || 'Failed to fetch providers');
