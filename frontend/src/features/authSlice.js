@@ -19,6 +19,21 @@ axios.interceptors.request.use(
 );
 
 // Handle token refresh
+let isRefreshing = false;
+let failedQueue = [];
+
+const processQueue = (error, token = null) => {
+  failedQueue.forEach(({ resolve, reject }) => {
+    if (error) {
+      reject(error);
+    } else {
+      resolve(token);
+    }
+  });
+
+  failedQueue = [];
+};
+
 axios.interceptors.response.use(
   (response) => response,
   async (error) => {
@@ -30,7 +45,21 @@ axios.interceptors.response.use(
         localStorage.getItem('refresh_token') &&
         !originalRequest.url.includes('/login') &&
         !originalRequest.url.includes('/register')) {
+
+      if (isRefreshing) {
+        // If already refreshing, queue this request
+        return new Promise((resolve, reject) => {
+          failedQueue.push({ resolve, reject });
+        }).then(token => {
+          originalRequest.headers.Authorization = `Bearer ${token}`;
+          return axios(originalRequest);
+        }).catch(err => {
+          return Promise.reject(err);
+        });
+      }
+
       originalRequest._retry = true;
+      isRefreshing = true;
 
       try {
         const refreshToken = localStorage.getItem('refresh_token');
@@ -41,11 +70,15 @@ axios.interceptors.response.use(
         const { access } = response.data;
         localStorage.setItem('access_token', access);
 
+        // Process queued requests with new token
+        processQueue(null, access);
+
         // Retry the original request
         originalRequest.headers.Authorization = `Bearer ${access}`;
         return axios(originalRequest);
       } catch (refreshError) {
         // Refresh failed, logout user
+        processQueue(refreshError, null);
         localStorage.removeItem('access_token');
         localStorage.removeItem('refresh_token');
         // Don't redirect to login during registration
@@ -53,6 +86,8 @@ axios.interceptors.response.use(
           window.location.href = '/login';
         }
         return Promise.reject(refreshError);
+      } finally {
+        isRefreshing = false;
       }
     }
 

@@ -172,7 +172,7 @@ const Home = () => {
                 <div className="category-card position-relative overflow-hidden rounded-3 shadow-sm" style={{minHeight: '280px', background: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)'}}>
                   <div className="card-img-overlay d-flex flex-column justify-content-between p-4 text-white">
                     <div className="category-icon text-center mb-3">
-                      <i className="fas fa-chalkboard-teacher fs-1 mb-3"></i>
+                      <i className="fas fa-chalkboard-teacher fs-1 mb-3 "></i>
                       <h4 className="card-title fw-bold mb-2">Coaching Centers</h4>
                     </div>
                     <div className="category-content">

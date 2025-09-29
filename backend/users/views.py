@@ -51,7 +51,13 @@ class LoginView(APIView):
         # Authenticate user
         try:
             user = User.objects.get(email=email)
+            print(f"Login attempt for user: {user.email}")
+            print(f"User active: {user.is_active}")
+            print(f"Password hash: {user.password[:50]}...")
+            print(f"Attempted password: {password}")
+
             if user.check_password(password):
+                print("Password check passed!")
                 if not user.is_active:
                     return Response(
                         {'error': 'User account is disabled.'},
@@ -61,7 +67,7 @@ class LoginView(APIView):
                 # Generate tokens
                 refresh = RefreshToken.for_user(user)
                 user_serializer = UserProfileSerializer(user)
-                print("userdata",user_serializer.data)
+                print(f"Login successful for user: {user.email}")
                 return Response({
                     'user': user_serializer.data,
                     'tokens': {
@@ -70,11 +76,13 @@ class LoginView(APIView):
                     }
                 })
             else:
+                print("Password check failed!")
                 return Response(
                     {'error': 'Invalid credentials.'},
                     status=status.HTTP_401_UNAUTHORIZED
                 )
         except User.DoesNotExist:
+            print(f"User {email} does not exist")
             return Response(
                 {'error': 'Invalid credentials.'},
                 status=status.HTTP_401_UNAUTHORIZED

@@ -65,6 +65,7 @@ const Profile = () => {
       await dispatch(changePassword({
         old_password: passwordData.old_password,
         new_password: passwordData.new_password,
+        new_password_confirm: passwordData.new_password_confirm,
       })).unwrap();
       setSuccessMessage('Password changed successfully!');
       setPasswordData({
